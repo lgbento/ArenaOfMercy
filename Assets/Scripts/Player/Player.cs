@@ -114,7 +114,8 @@ public class Player : MonoBehaviour
 		{
 			StartCoroutine(DamageBlink());
 		}
-	}
+      
+    }
 
 	IEnumerator DamageBlink()
 	{
@@ -128,4 +129,5 @@ public class Player : MonoBehaviour
 		}
 		blink = false;
 	}
+
 }
