@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\MenuManager.cs" />
     <Compile Include="Assets\Scripts\Player\Player.cs" />
     <Compile Include="Assets\Scripts\PlayerCamera.cs" />
+    <Compile Include="Assets\Scripts\Rei.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/luisg/UnityProjects/ArenaOfMercy/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

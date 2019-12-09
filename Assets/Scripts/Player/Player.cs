@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -9,8 +12,19 @@ public class Player : MonoBehaviour
 	private float jumpForce = 350;
 	private Rigidbody2D rb2dPlayer;
 	private float h;
-
-	private bool lookRight = true;
+    private int life;
+    [SerializeField]
+    private GameObject life1;
+    [SerializeField]
+    private GameObject life2;
+    [SerializeField]
+    private GameObject life3;
+    [SerializeField]
+    private GameObject life4;
+    [SerializeField]
+    private GameObject life5;
+    private int enemyDied;
+    private bool lookRight = true;
 	public bool LookRight
 	{
 		get { return lookRight; }
@@ -39,12 +53,16 @@ public class Player : MonoBehaviour
 
 	private void Start()
 	{
+        enemyDied = 0;
+        life = 5;
 		this.rb2dPlayer = this.GetComponent<Rigidbody2D>();
 		this.anim = GetComponent<Animator>();
 		this.sprite = GetComponent<SpriteRenderer>();
+       
 	}
 
-	private void Update()
+    [System.Obsolete]
+    private void Update()
 	{
 		h = Input.GetAxisRaw("Horizontal");
 
@@ -59,10 +77,10 @@ public class Player : MonoBehaviour
 			Flip();
 		}
 
-		if (Input.GetKeyDown(KeyCode.Space) && isGround)
+		/*if (Input.GetKeyDown(KeyCode.Space) && isGround)
 		{
 			rb2dPlayer.AddForce(new Vector2(0, jumpForce));
-		}
+		}*/
 
 		if (Input.GetMouseButtonDown(0) && isGround)
 		{
@@ -71,7 +89,33 @@ public class Player : MonoBehaviour
 
 		anim.SetFloat("run", Mathf.Abs(h));
 		anim.SetBool("isGround", isGround);
-		anim.SetFloat("jump", rb2dPlayer.velocity.y);
+		//anim.SetFloat("jump", rb2dPlayer.velocity.y);
+        if (life == 4)
+        {
+            Destroy(life5);
+        }
+        if (life == 3)
+        {
+            Destroy(life4);
+        }
+        if (life == 2)
+        {
+            Destroy(life3);
+        }
+        if (life == 1)
+        {
+            Destroy(life2);
+        }
+
+        if (life == 0)
+        {
+            Destroy(life1);
+
+            // Destroy(this.gameObject);
+            GameOver();
+
+
+        }
 	}
 
 	private void FixedUpdate()
@@ -106,6 +150,8 @@ public class Player : MonoBehaviour
 		if (other.CompareTag("Enemy"))
 		{
 			Destroy(other.gameObject);
+            enemyDied++;
+            
 		}
 	}
 	private void OnCollisionEnter2D(Collision2D other)
@@ -113,6 +159,7 @@ public class Player : MonoBehaviour
 		if (other.gameObject.CompareTag("Enemy"))
 		{
 			StartCoroutine(DamageBlink());
+            life--;
 		}
       
     }
@@ -129,5 +176,11 @@ public class Player : MonoBehaviour
 		}
 		blink = false;
 	}
+
+    public void GameOver()
+    {
+        SceneManager.LoadScene("GameOver");
+
+    }
 
 }
